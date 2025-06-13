@@ -44,5 +44,17 @@ app.get('/:shortId', async(req, res) => {
     }
 });
 
+app.post('/delete/:id', async (req, res) => {
+  try {
+    console.log(req.params);
+    await Url.findByIdAndDelete(req.params.id);
+    console.log(`Deleted URL with ID: ${req.params.id}`);
+    res.redirect('/');
+  } catch (err) {
+    console.error('Error deleting URL:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
